@@ -1,57 +1,46 @@
 #import <Foundation/Foundation.h>
 
 struct iOS {
-    // this is the Original incoming request
-    //  tptiphone://turn/teleportel/ios-demo
   __unsafe_unretained NSString *input_url;
-  
-    // this is the part we keep by removing first scheme
-    //  turn/teleportel/ios-demo
   __unsafe_unretained NSString *use_url;
-  
-    // this is the variable to connect to server and do the conference
   __unsafe_unretained NSString *server;
   __unsafe_unretained NSString *agent;
   __unsafe_unretained NSString *roomid;
+  __unsafe_unretained NSArray *array_url;
+  __unsafe_unretained NSArray *array_url_modified;
 };
 
 int main(int argc, const char * argv[]) {
   @autoreleasepool {
+    struct iOS StructIOS;
+    StructIOS.input_url = @"https://a/b/c";
+  
+    //NSArray *work_array = [StructIOS.input_url componentsSeparatedByString:@"https://"];
+    StructIOS.array_url = [StructIOS.input_url componentsSeparatedByString:@"https://"];
+    NSLog(@"%@", StructIOS.array_url);
     
-    struct iOS struct_ios;
-    struct_ios.input_url = @"tptiphone://turn/teleportel/ios-demo";
-    
-    
-    NSArray *work_array = [struct_ios.input_url componentsSeparatedByString:@"tptiphone://"];
-    NSLog(@"%@", work_array);
-    
-    for(NSArray *subArray in work_array) {
+    for(NSArray *subArray in StructIOS.array_url) {
       NSLog(@"%@", subArray);
     }
     
+    NSLog(@"%@", [StructIOS.array_url objectAtIndex:1] );
+    StructIOS.use_url =[StructIOS.array_url objectAtIndex:1] ;
     
-    
-    NSLog(@"%@", [work_array objectAtIndex:1] );
-    
-    struct_ios.use_url =[work_array objectAtIndex:1] ;
-    
-    
-    if ([struct_ios.use_url length] > 0) {
-      NSArray *work_array = [struct_ios.input_url componentsSeparatedByString:@"/"];
-      struct_ios.server = [work_array objectAtIndex:0];
-      struct_ios.agent = [work_array objectAtIndex:1];
-      struct_ios.roomid = [work_array objectAtIndex:2];
+    if ([StructIOS.use_url length] > 0) {
+      StructIOS.array_url_modified = [StructIOS.input_url componentsSeparatedByString:@"/"];
+      StructIOS.server = [StructIOS.array_url_modified  objectAtIndex:0];
+      StructIOS.agent = [StructIOS.array_url_modified  objectAtIndex:1];
+      StructIOS.roomid = [StructIOS.array_url_modified  objectAtIndex:2];
       
-      NSLog(@"OKOKOKOK!!!!");
+      NSLog(@"OK %@ %@ %@" ,
+            StructIOS.server,
+            StructIOS.agent,
+            StructIOS.roomid);
     }
     else {
-      NSLog(@"NOT OK O KO K!!!!");
+      NSLog(@"NOK");
     }
-    
-    
-    
   }
   
   return 0;
-  
 }
